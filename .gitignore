@@ -2,4 +2,4 @@
 
 !.gitignore
 !docker-compose.yml
-!./docker-conf/*
+!docker-conf/*
