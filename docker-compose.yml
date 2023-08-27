@@ -34,13 +34,14 @@ services:
       # Optional - alternative address used for autodiscovery
       #   - JELLYFIN_PublishedServerUrl=http://example.com
     volumes:
-      - /mnt/1tb-hdd/server/server-config/config:/config
+      - /mnt/1tb-hdd/server/server-config/config/jellyfin:/config
       - /mnt/1tb-hdd/server/server-config/cache:/cache
       - /mnt/1tb-hdd/server/Anime:/anime
+      - /mnt/wd-black/server/anime/:/otherAnime
       - /mnt/1tb-hdd/server/Movies:/movies
     ports:
       - 8920:8920
-    restart: 'unless-stopped'
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`) || Host(`beautaapken.duckdns.org`) && PathPrefix(`/jellyfin`)"
@@ -50,3 +51,48 @@ services:
       - "traefik.http.routers.jellyfin.tls=true"
       - "traefik.http.routers.jellyfin.tls.certresolver=letsencrypt"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/1tb-hdd/server/server-config/config/sonarr:/config
+      - /mnt/1tb-hdd/server/Anime:/anime
+      - /mnt/wd-black/server/anime/:/otherAnime
+      - /mnt/1tb-hdd/server/Movies:/movies
+    restart: unless-stopped
+    network_mode: service:vpn
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/sonarr`)"
+      - "traefik.http.routers.sonarr.service=sonarr"
+      - "traefik.http.routers.sonarr.entrypoints=https"
+      - "traefik.http.routers.sonarr.tls=true"
+      - "traefik.http.routers.sonarr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /mnt/1tb-hdd/server/server-config/config/radarr:/config
+      - /media/NAS/Tobin:/movies
+      - /media/NAS/Tobin/Download:/downloads
+    network_mode: service:vpn
+    restart: unless-stopped
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/radarr`)"
+      - "traefik.http.routers.radarr.service=radarr"
+      - "traefik.http.routers.radarr.entrypoints=https"
+      - "traefik.http.routers.radarr.tls=true"
+      - "traefik.http.routers.radarr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
