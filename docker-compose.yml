@@ -34,7 +34,7 @@ services:
       # Optional - alternative address used for autodiscovery
       #   - JELLYFIN_PublishedServerUrl=http://example.com
     volumes:
-      - /mnt/1tb-hdd/server/server-config/config:/config
+      - /mnt/1tb-hdd/server/server-config/config/jellyfin:/config
       - /mnt/1tb-hdd/server/server-config/cache:/cache
       - /mnt/1tb-hdd/server/Anime:/anime
       - /mnt/1tb-hdd/server/Movies:/movies
