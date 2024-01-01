@@ -25,7 +25,7 @@ services:
     labels:
       - "traefik.enable=true"
   jellyfin:
-    image: jellyfin/jellyfin
+    image: linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
       - PUID=1000
@@ -59,7 +59,7 @@ services:
               count: 1
               capabilities: [gpu]
   sonarr:
-    image: linuxserver/sonarr
+    image: linuxserver/sonarr:latest
     container_name: sonarr
     environment:
       - PUID=1000
@@ -82,7 +82,7 @@ services:
       # - "traefik.http.routers.sonarr.tls.certresolver=letsencrypt"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
   radarr:
-    image: linuxserver/radarr
+    image: linuxserver/radarr:latest
     container_name: radarr
     environment:
       - PUID=1000
