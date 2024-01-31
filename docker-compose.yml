@@ -3,6 +3,7 @@ services:
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -53,7 +54,7 @@ services:
     labels:
       - "traefik.enable=true"
   jellyfin:
-    image: jellyfin/jellyfin
+    image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
       - PUID=1000
@@ -62,8 +63,8 @@ services:
       # Optional - alternative address used for autodiscovery
       #   - JELLYFIN_PublishedServerUrl=http://example.com
     volumes:
-      - /mnt/1tb-hdd/server/server-config/config/jellyfin:/config
-      - /mnt/1tb-hdd/server/server-config/cache:/cache
+      - /mnt/crucial-ssd/docker-compose/config/jellyfin:/config
+      - /mnt/crucial-ssd/docker-compose/cache:/cache
       - /mnt/1tb-hdd/server/Anime:/anime
       - /mnt/1tb-hdd/server/Movies:/movies
       - /mnt/wd-black/server/anime/:/otherAnime
@@ -94,7 +95,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - /mnt/1tb-hdd/server/server-config/config/sonarr:/config
+      - /mnt/crucial-ssd/docker-compose/config/sonarr:/config
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
@@ -117,7 +118,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - /mnt/1tb-hdd/server/server-config/config/radarr:/config
+      - /mnt/crucial-ssd/docker-compose/config/radarr:/config
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
