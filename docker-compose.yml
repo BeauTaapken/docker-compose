@@ -63,8 +63,8 @@ services:
       # Optional - alternative address used for autodiscovery
       #   - JELLYFIN_PublishedServerUrl=http://example.com
     volumes:
-      - /mnt/crucial-ssd/docker-compose/config/jellyfin:/config
-      - /mnt/crucial-ssd/docker-compose/cache:/cache
+      - ./config/jellyfin:/config
+      - ./cache:/cache
       - /mnt/1tb-hdd/server/Anime:/anime
       - /mnt/1tb-hdd/server/Movies:/movies
       - /mnt/wd-black/server/anime/:/otherAnime
@@ -95,7 +95,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - /mnt/crucial-ssd/docker-compose/config/sonarr:/config
+      - ./config/sonarr:/config
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
@@ -118,7 +118,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
     volumes:
-      - /mnt/crucial-ssd/docker-compose/config/radarr:/config
+      - ./config/radarr:/config
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
