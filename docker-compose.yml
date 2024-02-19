@@ -3,7 +3,7 @@ services:
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower
-    restart: unless-stopped
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -32,7 +32,7 @@ services:
   traefik:
     container_name: traefik
     image: traefik:latest
-    restart: unless-stopped
+    restart: always
     command:
       - "--log.level=DEBUG"
       - "--api.insecure=true"
@@ -70,7 +70,7 @@ services:
       - /mnt/wd-black/server/anime/:/otherAnime
     ports:
       - 8920:8920
-    restart: 'unless-stopped'
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`)"
@@ -99,7 +99,7 @@ services:
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
-    restart: 'unless-stopped'
+    restart: always
     # network_mode: service:vpn
     labels:
       - "traefik.enable=true"
@@ -123,7 +123,7 @@ services:
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
     # network_mode: service:vpn
-    restart: 'unless-stopped'
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.radarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/radarr`)"
