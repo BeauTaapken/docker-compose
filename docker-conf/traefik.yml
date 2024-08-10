@@ -3,7 +3,7 @@
 ################################################################
 global:
   checkNewVersion: true
-  sendAnonymousUsage: true
+  sendAnonymousUsage: false
 
 ################################################################
 # Dashboard
