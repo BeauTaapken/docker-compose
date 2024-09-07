@@ -4,3 +4,6 @@
 !docker-compose.yml
 !/docker-conf/
 .env
+
+cache/
+log/

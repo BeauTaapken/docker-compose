@@ -70,9 +70,11 @@ services:
     volumes:
       - ./config/jellyfin:/config
       - ./cache:/cache
-      - /mnt/1tb-hdd/server/Anime:/anime
-      - /mnt/1tb-hdd/server/Movies:/movies
-      - /mnt/wd-black/server/anime/:/otherAnime
+      - /mnt/1tb-hdd/server:/1tb-hdd
+      - /mnt/wd-black/server:/wd-black
+      #      - /mnt/1tb-hdd/server/Anime:/anime
+      #      - /mnt/1tb-hdd/server/Movies:/movies
+      #      - /mnt/wd-black/server/anime/:/otherAnime
     ports:
       - 8920:8920
     restart: always
