@@ -136,7 +136,7 @@ services:
       - ./config/sonarr:/config
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
-      - /home/beau/Downloads/:/downloads/
+      - /mnt/wd-black/server/download:/downloads
     links:
       - vpn:qbittorrent
     restart: always
@@ -158,7 +158,7 @@ services:
       - ./config/radarr:/config
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
-      - /home/beau/Downloads/:/downloads/
+      - /mnt/wd-black/server/download:/downloads
     links:
       - vpn:qbittorrent
     restart: always
