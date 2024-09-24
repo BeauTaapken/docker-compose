@@ -1,4 +1,5 @@
 services:
+  # Auto update and reverse proxy
   watchtower:
     container_name: watchtower
     image: containrrr/watchtower
@@ -58,37 +59,8 @@ services:
       #- "traefik.http.routers.traefik.rule=PathPrefix(`/dashboard`)"
       #- "traefik.http.routers.traefik.service=traefik"
       #- "traefik.http.routers.traefik.entrypoints=traefik"
-  
-  qbittorrent:
-    image: linuxserver/qbittorrent
-    container_name: qbittorrent
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-    volumes:
-      - ./config/qbittorrent:/config
-      - /mnt/wd-black/server/download:/downloads
-    network_mode: service:vpn
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      # adding a slash to the end
-      - "traefik.http.routers.qbit.entrypoints=web"
-      - "traefik.http.routers.qbit.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/qbit`)"
-      - "traefik.http.middlewares.qbit-redirect.redirectregex.regex=^(.*)/qbit$$"
-      - "traefik.http.middlewares.qbit-redirect.redirectregex.replacement=$$1/qbit/"
-      - "traefik.http.middlewares.qbit-strip.stripprefix.prefixes=/qbit/"
-      # appropriate header change
-      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.X-Frame-Options=SAMEORIGIN"
-      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Referer="
-      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Origin="
-      - "traefik.http.routers.qbit.middlewares=qbit-strip,qbit-redirect,qbit-headers"
-      - "traefik.http.routers.qbit.entrypoints=https"
-      - "traefik.http.routers.qbit.tls=true"
-      - "traefik.http.routers.qbit.service=qbit"
-      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
 
+  # Jellyfin
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
@@ -122,6 +94,37 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+
+  # Download stuff
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config/qbittorrent:/config
+      - /mnt/wd-black/server/download:/downloads
+    network_mode: service:vpn
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      # adding a slash to the end
+      - "traefik.http.routers.qbit.entrypoints=web"
+      - "traefik.http.routers.qbit.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/qbit`)"
+      - "traefik.http.middlewares.qbit-redirect.redirectregex.regex=^(.*)/qbit$$"
+      - "traefik.http.middlewares.qbit-redirect.redirectregex.replacement=$$1/qbit/"
+      - "traefik.http.middlewares.qbit-strip.stripprefix.prefixes=/qbit/"
+      # appropriate header change
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Referer="
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Origin="
+      - "traefik.http.routers.qbit.middlewares=qbit-strip,qbit-redirect,qbit-headers"
+      - "traefik.http.routers.qbit.entrypoints=https"
+      - "traefik.http.routers.qbit.tls=true"
+      - "traefik.http.routers.qbit.service=qbit"
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
   sonarr:
     image: linuxserver/sonarr:latest
     container_name: sonarr
@@ -134,6 +137,8 @@ services:
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
+    links:
+      - vpn:qbittorrent
     restart: always
     labels:
       - "traefik.enable=true"
@@ -154,7 +159,8 @@ services:
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
-    # network_mode: service:vpn
+    links:
+      - vpn:qbittorrent
     restart: always
     labels:
       - "traefik.enable=true"
@@ -250,10 +256,6 @@ services:
     security_opt:
       - label:disable
     ports:
-      # Sonarr
-      - 8989:8989
-      # Radarr
-      - 7878:7878
       # qbittorrent
       - 6881:6881
       - 6881:6881/udp
