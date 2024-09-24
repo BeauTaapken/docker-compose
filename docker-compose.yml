@@ -58,6 +58,38 @@ services:
       #- "traefik.http.routers.traefik.rule=PathPrefix(`/dashboard`)"
       #- "traefik.http.routers.traefik.service=traefik"
       #- "traefik.http.routers.traefik.entrypoints=traefik"
+  
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config/qbittorrent:/config
+      - /mnt/wd-black/server/download:/downloads
+    network_mode: service:vpn
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      # adding a slash to the end
+      - "traefik.http.routers.qbit.entrypoints=web"
+      - "traefik.http.routers.qbit.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/qbit`)"
+      - "traefik.http.middlewares.qbit-redirect.redirectregex.regex=^(.*)/qbit$$"
+      - "traefik.http.middlewares.qbit-redirect.redirectregex.replacement=$$1/qbit/"
+      - "traefik.http.middlewares.qbit-strip.stripprefix.prefixes=/qbit/"
+      # appropriate header change
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Referer="
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Origin="
+      - "traefik.http.routers.qbit.middlewares=qbit-strip,qbit-redirect,qbit-headers"
+      - "traefik.http.routers.qbit.entrypoints=https"
+      - "traefik.http.routers.qbit.tls=true"
+      - "traefik.http.routers.qbit.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.qbit.service=qbit"
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
@@ -72,17 +104,13 @@ services:
       - ./cache:/cache
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server:/wd-black
-      #      - /mnt/1tb-hdd/server/Anime:/anime
-      #      - /mnt/1tb-hdd/server/Movies:/movies
-      #      - /mnt/wd-black/server/anime/:/otherAnime
     ports:
       - 8920:8920
     restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`)"
-      # - "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/jellyfin`)"
-      # Host(`beautaapken.duckdns.org`) && PathPrefix(`/jellyfin`)"
+      #- "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/jellyfin`)"
       - "traefik.http.routers.jellyfin.service=jellyfin"
       - "traefik.http.routers.jellyfin.entrypoints=https"
       - "traefik.http.routers.jellyfin.tls=true"
@@ -108,7 +136,7 @@ services:
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
     restart: always
-    # network_mode: service:vpn
+    network_mode: service:vpn
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sonarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/sonarr`)"
@@ -129,7 +157,7 @@ services:
       - /mnt/1tb-hdd/server/Anime/:/anime
       - /mnt/wd-black/server/anime/:/otherAnime
       - /home/beau/Downloads/:/downloads/
-    # network_mode: service:vpn
+    network_mode: service:vpn
     restart: always
     labels:
       - "traefik.enable=true"
@@ -180,6 +208,14 @@ services:
     env_file:
       - .env
     restart: always
+    # idk if this will fix the "issues"
+    # labels:
+    #  - "traefik.enable=true"
+    #  - "traefik.http.routers.immich.middlewares=immich-middleware"
+    #  - "traefik.http.routers.immich.service=immich"
+    #  - "traefik.http.routers.immich.entrypoints=https"
+    #  - "traefik.http.routers.immich.tls=true"
+    #  - "traefik.http.services.immich.loadbalancer.server.port=3001"
 
   redis:
     container_name: immich_redis
@@ -206,3 +242,27 @@ services:
       start_period: 5m
     command: ["postgres", "-c" ,"shared_preload_libraries=vectors.so", "-c", 'search_path="$$user", public, vectors', "-c", "logging_collector=on", "-c", "max_wal_size=2GB", "-c", "shared_buffers=512MB", "-c", "wal_compression=on"]
     restart: always
+
+  vpn:
+    container_name: vpn
+    image: dperson/openvpn-client:latest
+    restart: unless-stopped
+    volumes:
+      - ./config/vpn:/vpn
+    cap_add:
+      - net_admin
+    security_opt:
+      - label:disable
+    ports:
+      # Sonarr
+      - 8989:8989
+      # Radarr
+      - 7878:7878
+      # qbittorrent
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+      - 4343:4343
+    labels:
+      - "traefik.enable=true"
+

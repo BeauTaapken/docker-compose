@@ -3,6 +3,7 @@
 !.gitignore
 !docker-compose.yml
 !/docker-conf/
+!/config/vpn
 .env
 
 cache/
