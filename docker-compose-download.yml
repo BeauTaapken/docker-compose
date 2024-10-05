@@ -1,0 +1,98 @@
+services:
+# Download stuff
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config/qbittorrent:/config
+      - /mnt/18tb-exo/download:/downloads
+    network_mode: service:vpn
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      # adding a slash to the end
+      - "traefik.http.routers.qbit.entrypoints=web"
+      - "traefik.http.routers.qbit.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/qbit`)"
+      - "traefik.http.middlewares.qbit-redirect.redirectregex.regex=^(.*)/qbit$$"
+      - "traefik.http.middlewares.qbit-redirect.redirectregex.replacement=$$1/qbit/"
+      - "traefik.http.middlewares.qbit-strip.stripprefix.prefixes=/qbit/"
+      # appropriate header change
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.X-Frame-Options=SAMEORIGIN"
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Referer="
+      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Origin="
+      - "traefik.http.routers.qbit.middlewares=qbit-strip,qbit-redirect,qbit-headers"
+      - "traefik.http.routers.qbit.entrypoints=https"
+      - "traefik.http.routers.qbit.tls=true"
+      - "traefik.http.routers.qbit.service=qbit"
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config/sonarr:/config
+      - /mnt/1tb-hdd/server/:/1tb-hdd
+      - /mnt/wd-black/server/:/wdBlack
+      - /mnt/18tb-exo/:/18tb-exos
+      - /mnt/18tb-exo/download:/downloads
+    links:
+      - vpn:qbittorrent
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/sonarr`)"
+      - "traefik.http.routers.sonarr.service=sonarr"
+      - "traefik.http.routers.sonarr.entrypoints=https"
+      - "traefik.http.routers.sonarr.tls=true"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+
+  radarr:
+    image: linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - ./config/radarr:/config
+      - /mnt/1tb-hdd/server/:/1tb-hdd
+      - /mnt/18tb-exo/:/18tb-exos
+      - /mnt/18tb-exo/download:/downloads
+    links:
+      - vpn:qbittorrent
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/radarr`)"
+      - "traefik.http.routers.radarr.service=radarr"
+      - "traefik.http.routers.radarr.entrypoints=https"
+      - "traefik.http.routers.radarr.tls=true"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+
+  vpn:
+    container_name: vpn
+    image: dperson/openvpn-client:latest
+    restart: unless-stopped
+    volumes:
+      - ./config/vpn:/vpn
+    cap_add:
+      - net_admin
+    security_opt:
+      - label:disable
+    ports:
+      # qbittorrent
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+      - 4343:4343
+    labels:
+      - "traefik.enable=true"
+

@@ -1,10 +1,9 @@
-*
-
 !.gitignore
-!docker-compose.yml
 !/docker-conf/
 !/config/vpn
+letsencrypt/
 .env
 
+config/
 cache/
 log/
