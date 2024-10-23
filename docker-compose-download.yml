@@ -64,6 +64,7 @@ services:
     volumes:
       - ./config/radarr:/config
       - /mnt/1tb-hdd/server/:/1tb-hdd
+      - /mnt/wd-black/:/wd-black
       - /mnt/18tb-exo/:/18tb-exos
       - /mnt/18tb-exo/download:/downloads
     links:
