@@ -9,7 +9,7 @@ services:
       - 8265:8265 # webUI port
       - 8266:8266 # server port
     environment:
-      - TZ=Europe/London
+      - TZ=Europe/Amsterdam
       - PUID=1000
       - PGID=1000
       - UMASK_SET=002

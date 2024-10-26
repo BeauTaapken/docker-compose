@@ -7,6 +7,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Amsterdam
+      - DOCKER_MODS=ghcr.io/intro-skipper/intro-skipper-docker-mod
       # Optional - alternative address used for autodiscovery
       #   - JELLYFIN_PublishedServerUrl=http://example.com
     volumes:

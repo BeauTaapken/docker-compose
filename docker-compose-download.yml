@@ -6,7 +6,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Amsterdam
     volumes:
       - ./config/qbittorrent:/config
       - /mnt/18tb-exo/download:/downloads
@@ -36,7 +36,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Amsterdam
     volumes:
       - ./config/sonarr:/config
       - /mnt/1tb-hdd/server/:/1tb-hdd
@@ -60,7 +60,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Europe/London
+      - TZ=Europe/Amsterdam
     volumes:
       - ./config/radarr:/config
       - /mnt/1tb-hdd/server/:/1tb-hdd
