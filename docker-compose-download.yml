@@ -97,5 +97,5 @@ services:
     security_opt:
       - label:disable
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable=false"
 

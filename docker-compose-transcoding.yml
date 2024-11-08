@@ -17,7 +17,6 @@ services:
       - nodeName=MyInternalNode
       - NVIDIA_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
-      - basePath=/tdarr
     volumes:
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server/:/wdBlack
