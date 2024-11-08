@@ -1,8 +1,8 @@
 services:
 # Download stuff
-  qbittorrent:
+  qbit:
     image: linuxserver/qbittorrent
-    container_name: qbittorrent
+    container_name: qbit
     environment:
       - PUID=1000
       - PGID=1000
@@ -21,14 +21,16 @@ services:
       - "traefik.http.middlewares.qbit-redirect.redirectregex.replacement=$$1/qbit/"
       - "traefik.http.middlewares.qbit-strip.stripprefix.prefixes=/qbit/"
       # appropriate header change
-      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.X-Frame-Options=SAMEORIGIN"
-      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Referer="
-      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Origin="
-      - "traefik.http.routers.qbit.middlewares=qbit-strip,qbit-redirect,qbit-headers"
+      #      - "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.X-Frame-Options=SAMEORIGIN"
+      #- "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Referer="
+      #- "traefik.http.middlewares.qbit-headers.headers.customrequestheaders.Origin="
+      - "traefik.http.routers.qbit.middlewares=qbit-strip,qbit-redirect"
       - "traefik.http.routers.qbit.entrypoints=https"
       - "traefik.http.routers.qbit.tls=true"
       - "traefik.http.routers.qbit.service=qbit"
       - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+    depends_on:
+      - vpn
 
   sonarr:
     image: linuxserver/sonarr:latest
@@ -53,6 +55,8 @@ services:
       - "traefik.http.routers.sonarr.entrypoints=https"
       - "traefik.http.routers.sonarr.tls=true"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+    depends_on:
+      - qbit
 
   radarr:
     image: linuxserver/radarr:latest
@@ -77,6 +81,8 @@ services:
       - "traefik.http.routers.radarr.entrypoints=https"
       - "traefik.http.routers.radarr.tls=true"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+    depends_on:
+      - qbit
 
   vpn:
     container_name: vpn
@@ -86,14 +92,10 @@ services:
       - ./config/vpn:/vpn
     cap_add:
       - net_admin
+    devices:
+      - /dev/net/tun
     security_opt:
       - label:disable
-    ports:
-      # qbittorrent
-      - 6881:6881
-      - 6881:6881/udp
-      - 8080:8080
-      - 4343:4343
     labels:
       - "traefik.enable=true"
 

@@ -4,15 +4,11 @@ services:
     container_name: tdarr
     image: ghcr.io/haveagitgat/tdarr:latest
     restart: unless-stopped
-    network_mode: bridge
-    ports:
-      - 8265:8265 # webUI port
-      - 8266:8266 # server port
     environment:
       - TZ=Europe/Amsterdam
       - PUID=1000
       - PGID=1000
-      - UMASK_SET=002
+      - UMASK_SET=003
       - serverPort=8266
       - webUIPort=8265
       - internalNode=true
@@ -21,6 +17,7 @@ services:
       - nodeName=MyInternalNode
       - NVIDIA_DRIVER_CAPABILITIES=all
       - NVIDIA_VISIBLE_DEVICES=all
+      - basePath=/tdarr
     volumes:
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server/:/wdBlack
@@ -31,8 +28,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.tdarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/tdarr`)"
-      - "traefik.http.routers.portainer.middlewares=tdarrpathstrip@docker"
       - "traefik.http.routers.tdarr.service=tdarr"
+      - "traefik.http.routers.tdarr.middlewares=tdarr-strip"
+      - "traefik.http.middlewares.tdarr-strip.stripprefix.prefixes=/tdarr"
       - "traefik.http.routers.tdarr.entrypoints=https"
       - "traefik.http.routers.tdarr.tls=true"
       - "traefik.http.services.tdarr.loadbalancer.server.port=8265"
