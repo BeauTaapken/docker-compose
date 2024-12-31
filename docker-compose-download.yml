@@ -39,8 +39,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Amsterdam
-    ports:
-      - '8989:8989'
     volumes:
       - ./config/sonarr:/config
       - /mnt/1tb-hdd/server/:/1tb-hdd
@@ -67,8 +65,6 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Amsterdam
-    ports:
-      - '7878:7878'
     volumes:
       - ./config/radarr:/config
       - /mnt/1tb-hdd/server/:/1tb-hdd

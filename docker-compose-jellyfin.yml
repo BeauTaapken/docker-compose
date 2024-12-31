@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Amsterdam
       - DOCKER_MODS=ghcr.io/intro-skipper/intro-skipper-docker-mod
       # Optional - alternative address used for autodiscovery
-      - JELLYFIN_PublishedServerUrl=http://192.168.1.132
+      #   - JELLYFIN_PublishedServerUrl=http://192.168.1.132
     volumes:
       - ./config/jellyfin:/config
       - ./cache:/cache
@@ -18,7 +18,6 @@ services:
       - /mnt/18tb-exo:/18tb-exo
     ports:
       - 8920:8920
-      - 8096:8096
     restart: always
     group_add:
       - "989" # Change this to match your "render" host group id (getent group render | cut -d: -f3) (group may also be video or input)
