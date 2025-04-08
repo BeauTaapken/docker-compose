@@ -11,7 +11,7 @@ services:
       - ./config/qbittorrent:/config
       - /mnt/18tb-exo/download:/downloads
     network_mode: service:vpn
-    restart: unless-stopped
+    restart: always
     labels:
       - "traefik.enable=true"
       # adding a slash to the end
@@ -47,7 +47,7 @@ services:
       - /mnt/18tb-exo/download:/downloads
     links:
       - vpn:qbittorrent
-    restart: unless-stopped
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sonarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/sonarr`)"
@@ -73,7 +73,7 @@ services:
       - /mnt/18tb-exo/download:/downloads
     links:
       - vpn:qbittorrent
-    restart: unless-stopped
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.radarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/radarr`)"
@@ -87,7 +87,7 @@ services:
   vpn:
     container_name: vpn
     image: dperson/openvpn-client:latest
-    restart: unless-stopped
+    restart: always
     volumes:
       - ./config/vpn:/vpn
     cap_add:
