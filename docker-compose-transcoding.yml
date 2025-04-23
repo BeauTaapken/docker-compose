@@ -4,8 +4,6 @@ services:
     container_name: tdarr
     image: ghcr.io/haveagitgat/tdarr:latest
     restart: unless-stopped
-    ports:
-      - 8265:8265
     environment:
       - TZ=Europe/Amsterdam
       - PUID=1000
