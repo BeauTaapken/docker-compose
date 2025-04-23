@@ -32,13 +32,13 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.tdarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/tdarr`)"
       - "traefik.http.routers.tdarr.service=tdarr"
-      - "traefik.http.routers.tdarr.middlewares=tdarr-strip,tdarr-redirect"
+      - "traefik.http.routers.tdarr.middlewares=tdarr-strip,tdarr-pathregex"
       - "traefik.http.middlewares.tdarr-strip.stripprefix.prefixes=/tdarr"
-      - "traefik.http.middlewares.tdarr-redirect.redirectregex.regex=^(.*)/tdarr$$"
-      - "traefik.http.middlewares.tdarr-redirect.redirectregex.replacement=$$1/tdarr/"
       - "traefik.http.routers.tdarr.entrypoints=https"
       - "traefik.http.routers.tdarr.tls=true"
       - "traefik.http.services.tdarr.loadbalancer.server.port=8265"
+      - "traefik.http.middlewares.tdarr-pathregex.replacepathregex.regex=^/tdarr(.*)"
+      - "traefik.http.middlewares.tdarr-pathregex.replacepathregex.replacement=$$1"
     devices:
       - /dev/dri:/dev/dri
 #    deploy:
