@@ -233,7 +233,7 @@
       "version": "2.0.0",
       "inputsDB": {
         "arr": "sonarr",
-        "arr_api_key": "7c12ccbc4f7349469a389c0ddf7c2d8b",
+        "arr_api_key": "",
         "arr_host": "https://beautaapken.duckdns.org/sonarr"
       },
       "id": "7cEM9Ueje",
@@ -249,7 +249,7 @@
       "pluginName": "notifyRadarrOrSonarr",
       "version": "2.0.0",
       "inputsDB": {
-        "arr_api_key": "2f8bbbaab4f448318f3214d7dc1ee0fc",
+        "arr_api_key": "",
         "arr_host": "https://beautaapken.duckdns.org/radarr"
       },
       "id": "afcN2Nl97",
