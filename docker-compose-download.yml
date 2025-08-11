@@ -11,7 +11,7 @@ services:
       - ./config/qbittorrent:/config
       - /mnt/18tb-exo/download:/downloads
     network_mode: service:vpn
-    restart: always
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       # adding a slash to the end
@@ -47,7 +47,7 @@ services:
       - /mnt/18tb-exo/download:/downloads
     links:
       - vpn:qbittorrent
-    restart: always
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.sonarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/sonarr`)"
@@ -73,7 +73,7 @@ services:
       - /mnt/18tb-exo/download:/downloads
     links:
       - vpn:qbittorrent
-    restart: always
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.radarr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/radarr`)"
@@ -101,6 +101,26 @@ services:
       - "traefik.http.routers.prowlarr.tls=true"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
     restart: unless-stopped
+
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Amsterdam
+    volumes:
+      - ./config/flaresolverr:/config
+    links:
+      - vpn:qbittorrent
+    restart: unless-stopped
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.flaresolverr.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/flaresolverr`)"
+#      - "traefik.http.routers.flaresolverr.service=flaresolverr"
+#      - "traefik.http.routers.flaresolverr.entrypoints=https"
+#      - "traefik.http.routers.flaresolverr.tls=true"
+#      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
 
   vpn:
     container_name: vpn
