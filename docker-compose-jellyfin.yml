@@ -8,8 +8,6 @@ services:
       - PGID=1000
       - TZ=Europe/Amsterdam
       - DOCKER_MODS=ghcr.io/intro-skipper/intro-skipper-docker-mod
-      # Optional - alternative address used for autodiscovery
-      #   - JELLYFIN_PublishedServerUrl=http://192.168.1.132
     volumes:
       - ./config/jellyfin:/config
       - ./cache:/cache
@@ -25,16 +23,12 @@ services:
       - /dev/dri:/dev/dri # May need more specific like /dev/dri/renderD128
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`)"
-      #- "traefik.http.routers.jellyfin.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/jellyfin`)"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${HOST}`)"
       - "traefik.http.routers.jellyfin.service=jellyfin"
       - "traefik.http.routers.jellyfin.entrypoints=https"
       - "traefik.http.routers.jellyfin.tls=true"
       - "traefik.http.routers.jellyfin.tls.certresolver=letsencrypt"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-      #- "traefik.http.routers.jellyfin.middlewares=jellyfin-headers"
-      #- "traefik.http.middlewares.jellyfin-headers.headers.customResponseHeaders.X-Frame-Options="
-      #- "traefik.http.middlewares.jellyfin-headers.headers.customResponseHeaders.Content-Security-Policy=default-src 'self' data: blob:; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.youtube.com blob:; worker-src 'self' blob:; connect-src 'self'; object-src 'none'; font-src 'self';"
 #    deploy:
 #      resources:
 #        reservations:

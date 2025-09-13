@@ -18,12 +18,11 @@ services:
     restart: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.immich.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/immich`)"
-      - "traefik.http.routers.immich.middlewares=immich-middleware"
-      - "traefik.http.middlewares.immich-middleware.stripprefix.prefixes=/immich"
+      - "traefik.http.routers.immich.rule=Host(`immich.${HOST}`)"
       - "traefik.http.routers.immich.service=immich"
       - "traefik.http.routers.immich.entrypoints=https"
       - "traefik.http.routers.immich.tls=true"
+      - "traefik.http.routers.immich.tls.certresolver=letsencrypt"
       - "traefik.http.services.immich.loadbalancer.server.port=2283"
 
   immich-machine-learning:

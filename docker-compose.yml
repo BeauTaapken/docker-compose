@@ -55,10 +55,7 @@ services:
       - ./docker-conf/traefik.yml:/etc/traefik/traefik.yml
     labels:
       - "traefik.enable=true"
-      # TODO: These are not working for some reason, please fix
-      #- "traefik.http.routers.traefik-dashboard.rule=Host(`beautaapken.duckdns.org`) && PathPrefix(`/dashboard`)"
-      #- "traefik.http.routers.traefik-dashboard.service=traefik-dashboard"
-      #- "traefik.http.routers.traefik-dashboard.middlewares=traefik-middleware"
-      #- "traefik.http.middlewares.traefik-middleware.stripprefix.prefixes=/dashboard"
-      #- "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080"
-      #- "traefik.http.routers.traefik.entrypoints=traefik"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.beautaapken.nl`)"
+      - "traefik.http.routers.traefik-dashboard.service=traefik-dashboard"
+      - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.routers.traefik.entrypoints=traefik"
