@@ -14,7 +14,6 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      # adding a slash to the end
       - "traefik.http.routers.qbit.entrypoints=web"
       - "traefik.http.routers.qbit.rule=Host(`qbit.${HOST}`)"
       - "traefik.http.routers.qbit.entrypoints=https"
