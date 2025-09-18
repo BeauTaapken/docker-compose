@@ -31,20 +31,20 @@ services:
         {{- else -}}
           {{range .Entries -}}{{.Message}}{{"\n"}}{{- end -}}
         {{- end -}}
+
   traefik:
     container_name: traefik
     image: traefik:latest
     restart: always
     command:
       - "--log.level=DEBUG"
-      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.https.address=:443"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=http"
-      - "--certificatesresolvers.letsencrypt.acme.email=beau@lioncode.com"
+      - "--certificatesresolvers.letsencrypt.acme.email=${EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
     ports:
       - 80:80
@@ -55,7 +55,9 @@ services:
       - ./docker-conf/traefik.yml:/etc/traefik/traefik.yml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.beautaapken.nl`)"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`${HOST}`)"
       - "traefik.http.routers.traefik-dashboard.service=traefik-dashboard"
       - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080"
       - "traefik.http.routers.traefik.entrypoints=traefik"
+      - "traefik.http.routers.traefik.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
