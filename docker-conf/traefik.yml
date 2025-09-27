@@ -24,6 +24,8 @@ entryPoints:
           scheme: https
   https:
     address: ":443"
+  minecraft:
+    address: ":25565"
 
 ################################################################
 # LetsEncrypt configuration
