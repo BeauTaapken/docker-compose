@@ -1,5 +1,4 @@
 services:
-# Jellyfin
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
