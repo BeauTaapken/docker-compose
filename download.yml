@@ -162,6 +162,20 @@ services:
       - "homepage.widget.key=${PROWLARR_API_KEY}"
     restart: unless-stopped
 
+#  recyclarr:
+#    image: ghcr.io/recyclarr/recyclarr:latest
+#    container_name: recyclarr
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#    volumes:
+#      - ./config/recyclarr:/config
+#    restart: unless-stopped
+#    depends_on:
+#      - sonarr
+#      - radarr
+
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
     container_name: flaresolverr
