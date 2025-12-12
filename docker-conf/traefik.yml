@@ -38,6 +38,9 @@ certificatesResolvers:
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: http
+#      dnsChallenge:
+#        provider: mijnhost
+#        delayBeforeCheck: 0
 
 ################################################################
 # Docker configuration backend
