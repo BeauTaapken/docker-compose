@@ -1,0 +1,10 @@
+!.gitignore
+!/docker-conf/
+!/config/vpn
+letsencrypt/
+transcode_cache/
+.env
+
+config/
+cache/
+log/

@@ -1,0 +1,34 @@
+services:
+  cisco-fantasy-medieval-rpg:
+    image: itzg/minecraft-server
+    container_name: cisco-fantasy-medieval-rpg
+    tty: true
+    stdin_open: true
+    environment:
+      EULA: "TRUE"
+      TYPE: "AUTO_CURSEFORGE"
+      CF_API_KEY: "${CF_API_KEY}"
+      CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/reclamation-reclaim-the-world"
+      CF_INCLUDE: "391382"
+      CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/more-overlays-updated"
+      MEMORY: "16G"
+      USE_AIKAR_FLAGS: "true"
+      CF_DOWNLOADS_REPO: "/downloads"
+    volumes:
+      - ./reclamation/mods:/downloads
+      - ./reclamation:/data
+      - /mnt/18tb-exo/general-minecraft-config/banned-ips.json:/data/banned-ips.json
+      - /mnt/18tb-exo/general-minecraft-config/banned-players.json:/data/banned-players.json
+#      - /mnt/18tb-exo/general-minecraft-config/config:/data/config
+      - /mnt/18tb-exo/general-minecraft-config/eula.txt:/data/eula.txt
+#      - /mnt/18tb-exo/general-minecraft-config/kubejs:/data/kubejs
+      - /mnt/18tb-exo/general-minecraft-config/ops.json:/data/ops.json
+      - /mnt/18tb-exo/general-minecraft-config/resourcepacks:/data/resourcepacks
+      - /mnt/18tb-exo/general-minecraft-config/server.properties:/data/server.properties
+      - /mnt/18tb-exo/general-minecraft-config/whitelist.json:/data/whitelist.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.tcp.routers.Minecraft.service=Minecraft"
+      - "traefik.tcp.routers.Minecraft.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.Minecraft.entrypoints=minecraft"
+      - "traefik.tcp.services.Minecraft.loadbalancer.server.port=25565"
