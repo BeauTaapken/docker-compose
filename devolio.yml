@@ -1,0 +1,20 @@
+services:
+  devolio:
+    image: ghcr.io/beautaapken/devolio:latest
+    container_name: devolio
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ./config/devolio/content:/usr/share/nginx/html/content
+      - ./config/devolio/profile-photo.png:/usr/share/nginx/html/profile-photo.png
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.devolio.rule=Host(`www.${HOST}`) || Host(`${HOST}`)"
+      - "traefik.http.routers.devolio.service=devolio"
+      - "traefik.http.routers.devolio.entrypoints=https"
+      - "traefik.http.routers.devolio.tls=true"
+      - "traefik.http.routers.devolio.tls.certresolver=letsencrypt"
+      - "traefik.http.services.devolio.loadbalancer.server.port=80"
