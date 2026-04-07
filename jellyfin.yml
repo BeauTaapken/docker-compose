@@ -3,9 +3,9 @@ services:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Amsterdam
+      - PUID=${PGID}
+      - PGID=${PUID}
+      - TZ=${TZ}
       - DOCKER_MODS=ghcr.io/intro-skipper/intro-skipper-docker-mod
     volumes:
       - ./config/jellyfin:/config
@@ -13,8 +13,6 @@ services:
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server:/wd-black
       - /mnt/18tb-exo:/18tb-exo
-    ports:
-      - 8920:8920
     restart: always
     group_add:
       - "989" # Change this to match your "render" host group id (getent group render | cut -d: -f3) (group may also be video or input)
