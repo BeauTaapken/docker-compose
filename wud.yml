@@ -1,0 +1,24 @@
+services:
+  whatsupdocker:
+    image: getwud/wud
+    container_name: wud
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/wud:/store
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WUD_AUTH_BASIC_BEAU_USER=${WUD_USER}
+      - WUD_AUTH_BASIC_BEAU_HASH=${WUD_PASSWORD}
+      - WUD_REGISTRY_GHCR_GITHUB_USERNAME=${LSCR_USERNAME}
+      - WUD_REGISTRY_GHCR_GITHUB_TOKEN=${LSCR_TOKEN}
+      - WUD_TRIGGER_DOCKER_CLEANUP_PRUNE=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.wud.rule=Host(`wud.${HOST}`)"
+      - "traefik.http.routers.wud.service=wud"
+      - "traefik.http.routers.wud.entrypoints=https"
+      - "traefik.http.routers.wud.tls=true"
+      - "traefik.http.routers.wud.tls.certresolver=letsencrypt"
+      - "traefik.http.services.wud.loadbalancer.server.port=3000"
