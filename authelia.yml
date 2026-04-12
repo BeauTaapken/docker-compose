@@ -4,13 +4,16 @@ services:
     image: authelia/authelia:latest
     restart: unless-stopped
     environment:
+      - PGID=${PGID}
+      - PUID=${PUID}
       - TZ=${TZ}
     volumes:
       - ./config/authelia:/config
     networks:
-      - proxy
+      - auth
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=auth"
       - "traefik.http.routers.authelia.rule=Host(`authelia.${HOST}`)"
       - "traefik.http.routers.authelia.service=authelia"
       - "traefik.http.services.authelia.loadbalancer.server.port=9091"
@@ -19,5 +22,5 @@ services:
       - "traefik.http.routers.authelia.tls.certresolver=lestencrypt"
 
 networks:
-  proxy:
+  auth:
     external: true

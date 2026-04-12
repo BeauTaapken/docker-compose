@@ -1,7 +1,7 @@
 services:
-  cisco-fantasy-medieval-rpg:
+  reclamation:
     image: itzg/minecraft-server
-    container_name: cisco-fantasy-medieval-rpg
+    container_name: reclamation
     tty: true
     stdin_open: true
     environment:
@@ -26,9 +26,16 @@ services:
       - /mnt/18tb-exo/general-minecraft-config/resourcepacks:/data/resourcepacks
       - /mnt/18tb-exo/general-minecraft-config/server.properties:/data/server.properties
       - /mnt/18tb-exo/general-minecraft-config/whitelist.json:/data/whitelist.json
+    networks:
+      - minecraft
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=minecraft"
       - "traefik.tcp.routers.Minecraft.service=Minecraft"
       - "traefik.tcp.routers.Minecraft.rule=HostSNI(`*`)"
       - "traefik.tcp.routers.Minecraft.entrypoints=minecraft"
       - "traefik.tcp.services.Minecraft.loadbalancer.server.port=25565"
+
+networks:
+  minecraft:
+    external: true

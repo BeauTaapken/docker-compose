@@ -6,7 +6,8 @@ services:
     volumes:
       - ./config/vpn:/vpn
     networks:
-      - proxy
+      - qbit
+      - download
     cap_add:
       - net_admin
     devices:
@@ -17,5 +18,7 @@ services:
       - "traefik.enable=false"
 
 networks:
-  proxy:
+  qbit:
+    external: true
+  download:
     external: true

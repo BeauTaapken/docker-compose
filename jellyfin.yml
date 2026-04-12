@@ -13,13 +13,17 @@ services:
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server:/wd-black
       - /mnt/18tb-exo:/18tb-exo
-    restart: always
+    restart: unless-stopped
+    networks:
+      - jellyfin
+      - arr
     group_add:
-      - "989" # Change this to match your "render" host group id (getent group render | cut -d: -f3) (group may also be video or input)
+      - "989"
     devices:
-      - /dev/dri:/dev/dri # May need more specific like /dev/dri/renderD128
+      - /dev/dri:/dev/dri
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=jellyfin"
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${HOST}`)"
       - "traefik.http.routers.jellyfin.service=jellyfin"
       - "traefik.http.routers.jellyfin.entrypoints=https"
@@ -36,10 +40,9 @@ services:
       - "homepage.widget.key=${JELLYFIN_API_KEY}"
       - "homepage.widget.enableBlocks=true"
       - "homepage.widget.enableMediaControl=false"
-#    deploy:
-#      resources:
-#        reservations:
-#          devices:
-#            - driver: nvidia
-#              count: 1
-#              capabilities: [gpu]
+
+networks:
+  jellyfin:
+    external: true
+  arr:
+    external: true

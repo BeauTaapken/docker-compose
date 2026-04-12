@@ -10,11 +10,18 @@ services:
       - ./config/devolio/content:/usr/share/nginx/html/content
       - ./config/devolio/profile-photo.png:/usr/share/nginx/html/profile-photo.png
     restart: unless-stopped
+    networks:
+      - devolio
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=devolio"
       - "traefik.http.routers.devolio.rule=Host(`www.${HOST}`) || Host(`${HOST}`)"
       - "traefik.http.routers.devolio.service=devolio"
       - "traefik.http.routers.devolio.entrypoints=https"
       - "traefik.http.routers.devolio.tls=true"
       - "traefik.http.routers.devolio.tls.certresolver=letsencrypt"
       - "traefik.http.services.devolio.loadbalancer.server.port=80"
+
+networks:
+  devolio:
+    external: true

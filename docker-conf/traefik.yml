@@ -1,19 +1,12 @@
-################################################################
-# Global configuration
-################################################################
 global:
   checkNewVersion: true
   sendAnonymousUsage: false
 
-################################################################
-# Dashboard
-################################################################
 api:
   dashboard: true
 
-################################################################
-# EntryPoints configuration
-################################################################
+ping: {}
+
 entryPoints:
   http:
     address: ":80"
@@ -27,9 +20,6 @@ entryPoints:
   minecraft:
     address: ":25565"
 
-################################################################
-# LetsEncrypt configuration
-################################################################
 certificatesResolvers:
   letsencrypt:
     acme:
@@ -42,26 +32,16 @@ certificatesResolvers:
 #        provider: mijnhost
 #        delayBeforeCheck: 0
 
-################################################################
-# Docker configuration backend
-################################################################
 providers:
   docker:
     network: proxy
 
-################################################################
-# Traefik logs configuration
-################################################################
 # log:
 #  level: DEBUG
 #   filePath: log/traefik.log
 #   # Default: "common"
 #
 #   format: json
-
-################################################################
-# Access logs configuration
-################################################################
 
 # Enable access logs
 # By default it will write to stdout and produce logs in the textual
@@ -85,10 +65,6 @@ providers:
   #
 #  format: json
 
-################################################################
-# API and dashboard configuration
-################################################################
-
 # Enable API and dashboard
 #
 # Optional
@@ -107,10 +83,6 @@ providers:
   # Default: true
   #
 #  dashboard: false
-
-################################################################
-# Ping configuration
-################################################################
 
 # Enable ping
 #ping:
