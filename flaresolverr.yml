@@ -1,0 +1,15 @@
+services:
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - arr
+    restart: unless-stopped
+
+networks:
+  arr:
+    external: true

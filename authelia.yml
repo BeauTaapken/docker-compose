@@ -1,0 +1,23 @@
+services:
+  authelia:
+    container_name: authelia
+    image: authelia/authelia:latest
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ./config/authelia:/config
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.authelia.rule=Host(`authelia.${HOST}`)"
+      - "traefik.http.routers.authelia.service=authelia"
+      - "traefik.http.services.authelia.loadbalancer.server.port=9091"
+      - "traefik.http.routers.authelia.entrypoints=https"
+      - "traefik.http.routers.authelia.tls=true"
+      - "traefik.http.routers.authelia.tls.certresolver=lestencrypt"
+
+networks:
+  proxy:
+    external: true

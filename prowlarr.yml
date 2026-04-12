@@ -1,0 +1,37 @@
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ./config/prowlarr:/config
+    networks:
+      - prowlarr
+      - arr
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=prowlarr"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${HOST}`)"
+      - "traefik.http.routers.prowlarr.service=prowlarr"
+      - "traefik.http.routers.prowlarr.entrypoints=https"
+      - "traefik.http.routers.prowlarr.tls=true"
+      - "traefik.http.routers.prowlarr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      - "homepage.group=Sourcers"
+      - "homepage.name=Prowlarr"
+      - "homepage.icon=prowlarr.png"
+      - "homepage.href=https://prowlarr.beautaapken.nl"
+      - "homepage.description=trackers"
+      - "homepage.widget.type=prowlarr"
+      - "homepage.widget.url=http://prowlarr:9696"
+      - "homepage.widget.key=${PROWLARR_API_KEY}"
+    restart: unless-stopped
+
+networks:
+  prowlarr:
+    external: true
+  arr:
+    external: true

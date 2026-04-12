@@ -1,0 +1,17 @@
+services:
+  signal-cli-rest-api:
+    image: bbernhard/signal-cli-rest-api:latest
+    container_name: signal-cli
+    ports:
+      - 8080:8080
+    environment:
+      - MODE=normal #supported modes: json-rpc, native, normal
+      #- AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
+    volumes:
+      - "./config/signal-cli:/home/.local/share/signal-cli"
+    networks:
+      - signal-cli
+
+networks:
+  signal-cli:
+    external: true

@@ -1,0 +1,42 @@
+services:
+  radicale:
+    image: tomsquest/docker-radicale
+    container_name: radicale
+    init: true
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - CHOWN
+      - KILL
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          pids: 50
+    healthcheck:
+      test: curl -f http://127.0.0.1:5232 || exit 1
+      interval: 30s
+      retries: 3
+    restart: unless-stopped
+    volumes:
+      - ./data/radicale:/data
+    networks:
+      - radicale
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=radicale"
+      - "traefik.http.routers.radicale.rule=Host(`radicale.${HOST}`)"
+      - "traefik.http.routers.radicale.service=radicale"
+      - "traefik.http.routers.radicale.entrypoints=https"
+      - "traefik.http.routers.radicale.tls=true"
+      - "traefik.http.routers.radicale.tls.certresolver=letsencrypt"
+      - "traefik.http.services.radicale.loadbalancer.server.port=5232"
+
+networks:
+  radicale:
+    external: true

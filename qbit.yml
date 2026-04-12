@@ -1,0 +1,32 @@
+services:
+  qbit:
+    image: linuxserver/qbittorrent
+    container_name: qbit
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ./config/qbittorrent:/config
+      - /mnt/18tb-exo/download:/downloads
+    network_mode: container:vpn
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qbit.rule=Host(`qbit.${HOST}`)"
+      - "traefik.http.routers.qbit.entrypoints=https"
+      - "traefik.http.routers.qbit.tls=true"
+      - "traefik.http.routers.qbit.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.qbit.service=qbit"
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+#       - "homepage.group=Download"
+#       - "homepage.name=qBit"
+#       - "homepage.icon=qbittorrent.png"
+#       - "homepage.href=https://qbit.${HOST}"
+#       - "homepage.description=qbit"
+#       - "homepage.widget.type=qbittorrent"
+#       - "homepage.widget.url=http://qbittorrent:8080"
+#       - "homepage.widget.username=${QBIT_USER}"
+#       - "homepage.widget.password=${QBIT_PASSWORD}"
+#    depends_on:
+#      - vpn
