@@ -17,7 +17,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=vaultwarden"
-      - "traefik.http.routers.vaultwarden.entrypoints=web"
+#      - "traefik.http.routers.vaultwarden.entrypoints=web"
       - "traefik.http.routers.vaultwarden.rule=Host(`vaultwarden.${HOST}`)"
       - "traefik.http.routers.vaultwarden.entrypoints=https"
       - "traefik.http.routers.vaultwarden.tls=true"

@@ -24,7 +24,7 @@ certificatesResolvers:
   letsencrypt:
     acme:
       email: beau@lioncode.nl
-      storage: "letsencrypt/acme.json"
+      storage: "/letsencrypt/acme.json"
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: http
@@ -34,7 +34,8 @@ certificatesResolvers:
 
 providers:
   docker:
-    network: proxy
+    exposedByDefault: false
+#    network: proxy
 
 # log:
 #  level: DEBUG

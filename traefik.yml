@@ -44,14 +44,12 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.${HOST}`)"
-      - "traefik.http.routers.traefik-dashboard.service=traefik-dashboard"
-      - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080"
-      - "traefik.http.routers.traefik.entrypoints=traefik"
-      - "traefik.http.routers.traefik.middlewares=auth"
-      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
       - "traefik.http.routers.traefik-dashboard.entrypoints=https"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
       - "traefik.http.routers.traefik-dashboard.tls=true"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
       - "traefik.http.routers.traefik-dashboard.middlewares=auth"
 
 networks:

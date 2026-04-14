@@ -21,7 +21,7 @@ services:
       - immich-internal
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network="
+      - "traefik.docker.network=immich"
       - "traefik.http.routers.immich.rule=Host(`immich.${HOST}`)"
       - "traefik.http.routers.immich.service=immich"
       - "traefik.http.routers.immich.entrypoints=https"
@@ -53,14 +53,13 @@ services:
     networks:
       - immich-internal
     restart: always
-    # idk if this will fix the "issues"
-    # labels:
-    #  - "traefik.enable=true"
-    #  - "traefik.http.routers.immich.middlewares=immich-middleware"
-    #  - "traefik.http.routers.immich.service=immich"
-    #  - "traefik.http.routers.immich.entrypoints=https"
-    #  - "traefik.http.routers.immich.tls=true"
-    #  - "traefik.http.services.immich.loadbalancer.server.port=3001"
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.immich.middlewares=immich-middleware"
+#      - "traefik.http.routers.immich.service=immich"
+#      - "traefik.http.routers.immich.entrypoints=https"
+#      - "traefik.http.routers.immich.tls=true"
+#      - "traefik.http.services.immich.loadbalancer.server.port=3001"
 
   redis:
     container_name: immich_redis
