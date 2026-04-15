@@ -25,18 +25,11 @@ services:
     restart: unless-stopped
     volumes:
       - ./data/radicale:/data
-    networks:
-      - radicale
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=radicale"
       - "traefik.http.routers.radicale.rule=Host(`radicale.${HOST}`)"
       - "traefik.http.routers.radicale.service=radicale"
       - "traefik.http.routers.radicale.entrypoints=https"
       - "traefik.http.routers.radicale.tls=true"
       - "traefik.http.routers.radicale.tls.certresolver=letsencrypt"
       - "traefik.http.services.radicale.loadbalancer.server.port=5232"
-
-networks:
-  radicale:
-    external: true

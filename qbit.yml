@@ -13,14 +13,13 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=qbit"
+      - "traefik.docker.network=proxy"
       - "traefik.http.routers.qbit.rule=Host(`qbit.${HOST}`)"
       - "traefik.http.routers.qbit.entrypoints=https"
       - "traefik.http.routers.qbit.tls=true"
       - "traefik.http.routers.qbit.tls.certresolver=letsencrypt"
       - "traefik.http.routers.qbit.service=qbit"
-#      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
-      - "traefik.http.services.qbit.loadbalancer.server.url=http://vpn:8080"
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
 #       - "homepage.group=Download"
 #       - "homepage.name=qBit"
 #       - "homepage.icon=qbittorrent.png"

@@ -9,9 +9,3 @@ services:
       #- AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
     volumes:
       - "./config/signal-cli:/home/.local/share/signal-cli"
-    networks:
-      - signal-cli
-
-networks:
-  signal-cli:
-    external: true

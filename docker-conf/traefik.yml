@@ -35,7 +35,7 @@ certificatesResolvers:
 providers:
   docker:
     exposedByDefault: false
-#    network: proxy
+    network: proxy
 
 # log:
 #  level: DEBUG

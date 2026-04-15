@@ -8,12 +8,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ./config/prowlarr:/config
-    networks:
-      - prowlarr
-      - arr
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=prowlarr"
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${HOST}`)"
       - "traefik.http.routers.prowlarr.service=prowlarr"
       - "traefik.http.routers.prowlarr.entrypoints=https"
@@ -29,9 +25,3 @@ services:
       - "homepage.widget.url=http://prowlarr:9696"
       - "homepage.widget.key=${PROWLARR_API_KEY}"
     restart: unless-stopped
-
-networks:
-  prowlarr:
-    external: true
-  arr:
-    external: true

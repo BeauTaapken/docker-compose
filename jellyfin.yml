@@ -14,16 +14,12 @@ services:
       - /mnt/wd-black/server:/wd-black
       - /mnt/18tb-exo:/18tb-exo
     restart: unless-stopped
-    networks:
-      - jellyfin
-      - arr
     group_add:
       - "989"
     devices:
       - /dev/dri:/dev/dri
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=jellyfin"
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${HOST}`)"
       - "traefik.http.routers.jellyfin.service=jellyfin"
       - "traefik.http.routers.jellyfin.entrypoints=https"
@@ -40,9 +36,3 @@ services:
       - "homepage.widget.key=${JELLYFIN_API_KEY}"
       - "homepage.widget.enableBlocks=true"
       - "homepage.widget.enableMediaControl=false"
-
-networks:
-  jellyfin:
-    external: true
-  arr:
-    external: true

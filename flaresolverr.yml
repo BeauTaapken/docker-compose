@@ -6,10 +6,4 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-    networks:
-      - arr
     restart: unless-stopped
-
-networks:
-  arr:
-    external: true

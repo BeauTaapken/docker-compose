@@ -12,11 +12,6 @@ services:
 #      - /mnt/wd-black/server/:/wdBlack
       - /mnt/18tb-exo/:/18tb-exos
       - /mnt/18tb-exo/download:/downloads
-    networks:
-      - sonarr
-      - arr
-      - download
-      - signal-cli
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8989"]
@@ -25,13 +20,13 @@ services:
       retries: 3
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=sonarr"
       - "traefik.http.routers.sonarr.rule=Host(`sonarr.${HOST}`)"
       - "traefik.http.routers.sonarr.service=sonarr"
       - "traefik.http.routers.sonarr.entrypoints=https"
       - "traefik.http.routers.sonarr.tls=true"
       - "traefik.http.routers.sonarr.tls.certresolver=letsencrypt"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      - "wud.watch.digest=true"
       - "homepage.group=Sourcers"
       - "homepage.name=Sonarr"
       - "homepage.icon=sonarr.png"
@@ -41,13 +36,3 @@ services:
       - "homepage.widget.url=http://sonarr:8989"
       - "homepage.widget.key=${SONARR_API_KEY}"
       - "homepage.widget.enableQueue=true"
-
-networks:
-  sonarr:
-    external: true
-  arr:
-    external: true
-  download:
-    external: true
-  signal-cli:
-    external: true

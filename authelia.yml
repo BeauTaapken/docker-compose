@@ -9,18 +9,11 @@ services:
       - TZ=${TZ}
     volumes:
       - ./config/authelia:/config
-    networks:
-      - auth
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=auth"
       - "traefik.http.routers.authelia.rule=Host(`authelia.${HOST}`)"
       - "traefik.http.routers.authelia.service=authelia"
       - "traefik.http.services.authelia.loadbalancer.server.port=9091"
       - "traefik.http.routers.authelia.entrypoints=https"
       - "traefik.http.routers.authelia.tls=true"
       - "traefik.http.routers.authelia.tls.certresolver=letsencrypt"
-
-networks:
-  auth:
-    external: true

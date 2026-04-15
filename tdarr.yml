@@ -24,12 +24,8 @@ services:
       - ./config/tdarr/server:/app/server
       - ./config/tdarr/config:/app/configs
       - ./transcode_cache:/temp
-    networks:
-      - tdarr
-      - arr
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=tdarr"
       - "traefik.http.routers.tdarr.rule=Host(`tdarr.${HOST}`)"
       - "traefik.http.routers.tdarr.service=tdarr"
       - "traefik.http.routers.tdarr.entrypoints=https"
@@ -46,9 +42,3 @@ services:
       - "homepage.widget.key=${TDARR_API_KEY}"
     devices:
       - /dev/dri:/dev/dri
-
-networks:
-  tdarr:
-    external: true
-  arr:
-    external: true

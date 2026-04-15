@@ -11,12 +11,8 @@ services:
       - PGID=1000
       - TZ=Europe/Amsterdam
       - HOMEPAGE_ALLOWED_HOSTS=homepage.${HOST}
-    networks:
-      - homepage
-      - dockerproxy
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=homepage"
       - "traefik.http.routers.homepage.entrypoints=web"
       - "traefik.http.routers.homepage.rule=Host(`homepage.${HOST}`)"
       - "traefik.http.routers.homepage.entrypoints=https"
@@ -25,9 +21,3 @@ services:
       - "traefik.http.routers.homepage.tls.certresolver=letsencrypt"
       - "traefik.http.routers.homepage.service=homepage"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
-
-networks:
-  homepage:
-    external: true
-  dockerproxy:
-    external: true

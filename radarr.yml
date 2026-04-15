@@ -12,15 +12,9 @@ services:
 #      - /mnt/wd-black/:/wd-black
       - /mnt/18tb-exo/:/18tb-exos
       - /mnt/18tb-exo/download:/downloads
-    networks:
-      - radarr
-      - arr
-      - download
-      - signal-cli
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=radarr"
       - "traefik.http.routers.radarr.rule=Host(`radarr.${HOST}`)"
       - "traefik.http.routers.radarr.service=radarr"
       - "traefik.http.routers.radarr.entrypoints=https"
@@ -36,13 +30,3 @@ services:
       - "homepage.widget.url=http://radarr:7878"
       - "homepage.widget.key=${RADARR_API_KEY}"
       - "homepage.widget.enableQueue=true"
-
-networks:
-  radarr:
-    external: true
-  arr:
-    external: true
-  download:
-    external: true
-  signal-cli:
-    external: true
