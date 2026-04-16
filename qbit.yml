@@ -20,6 +20,7 @@ services:
       - "traefik.http.routers.qbit.tls.certresolver=letsencrypt"
       - "traefik.http.routers.qbit.service=qbit"
       - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+      - "wud.watch.digest=true"
 #       - "homepage.group=Download"
 #       - "homepage.name=qBit"
 #       - "homepage.icon=qbittorrent.png"

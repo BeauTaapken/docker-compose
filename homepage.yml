@@ -21,3 +21,4 @@ services:
       - "traefik.http.routers.homepage.tls.certresolver=letsencrypt"
       - "traefik.http.routers.homepage.service=homepage"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "wud.watch.digest=true"

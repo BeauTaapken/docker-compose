@@ -18,3 +18,4 @@ services:
       - "traefik.http.routers.devolio.tls=true"
       - "traefik.http.routers.devolio.tls.certresolver=letsencrypt"
       - "traefik.http.services.devolio.loadbalancer.server.port=80"
+      - "wud.watch.digest=true"

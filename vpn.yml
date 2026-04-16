@@ -13,3 +13,4 @@ services:
       - label:disable
     labels:
       - "traefik.enable=false"
+      - "wud.watch.digest=true"

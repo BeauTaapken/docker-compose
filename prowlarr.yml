@@ -8,6 +8,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ./config/prowlarr:/config
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${HOST}`)"
@@ -16,6 +17,7 @@ services:
       - "traefik.http.routers.prowlarr.tls=true"
       - "traefik.http.routers.prowlarr.tls.certresolver=letsencrypt"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      - "wud.watch.digest=true"
       - "homepage.group=Sourcers"
       - "homepage.name=Prowlarr"
       - "homepage.icon=prowlarr.png"
@@ -24,4 +26,3 @@ services:
       - "homepage.widget.type=prowlarr"
       - "homepage.widget.url=http://prowlarr:9696"
       - "homepage.widget.key=${PROWLARR_API_KEY}"
-    restart: unless-stopped

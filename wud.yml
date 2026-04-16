@@ -13,7 +13,10 @@ services:
       - WUD_AUTH_BASIC_BEAU_HASH=${WUD_PASSWORD}
       - WUD_REGISTRY_GHCR_GITHUB_USERNAME=${LSCR_USERNAME}
       - WUD_REGISTRY_GHCR_GITHUB_TOKEN=${LSCR_TOKEN}
+      - WUD_REGISTRY_LSCR_LINUXSERVER_USERNAME=${LSCR_USERNAME}
+      - WUD_REGISTRY_LSCR_LINUXSERVER_TOKEN=${LSCR_TOKEN}
       - WUD_TRIGGER_DOCKER_CLEANUP_PRUNE=true
+      - WUD_TRIGGER_DOCKER_COMPOSE_JELLYFIN_FILE
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wud.rule=Host(`wud.${HOST}`)"
@@ -22,3 +25,4 @@ services:
       - "traefik.http.routers.wud.tls=true"
       - "traefik.http.routers.wud.tls.certresolver=letsencrypt"
       - "traefik.http.services.wud.loadbalancer.server.port=3000"
+      - "wud.watch.digest=true"
