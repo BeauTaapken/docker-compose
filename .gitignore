@@ -1,10 +1,12 @@
-!.gitignore
-!/docker-conf/
-!/config/vpn
 letsencrypt/
 transcode_cache/
 .env
 
-config/
+config/*
+!config/crowdsec/acquis.yaml
+
 cache/
 log/
+data/
+
+!.gitignore

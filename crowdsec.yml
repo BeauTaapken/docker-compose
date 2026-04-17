@@ -1,0 +1,17 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec
+    container_name: "crowdsec"
+    restart: unless-stopped
+    environment:
+      COLLECTIONS: crowdsecurity/traefik crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules
+      GID: "${GUID-1000}"
+      BOUNCER_KEY_TRAEFIK: "${CROWDSEC_LAPI_KEY}"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./data/traefik/logs/:/var/log/traefik:ro
+      - ./data/crowdsec-db/:/var/lib/crowdsec/data/
+      - ./config/crowdsec/:/etc/crowdsec/
+    labels:
+      - "traefik.enable=false"
