@@ -17,6 +17,9 @@ entryPoints:
           scheme: https
   https:
     address: ":443"
+    http:
+      middlewares:
+        - crowdsec@file
   minecraft:
     address: ":25565"
 
@@ -34,62 +37,25 @@ certificatesResolvers:
 
 providers:
   docker:
-    exposedByDefault: false
     network: proxy
+  file:
+    directory: /etc/traefik/dynamic/
+    watch: true
 
-# log:
-#  level: DEBUG
-#   filePath: log/traefik.log
-#   # Default: "common"
-#
-#   format: json
+log:
+  level: INFO
+  filePath: "/var/log/traefik/traefik.log"
+  maxSize: 100
+  maxBackups: 5
+  maxAge: 30
+  compress: true
 
-# Enable access logs
-# By default it will write to stdout and produce logs in the textual
-# Common Log Format (CLF), extended with additional fields.
-#
-# Optional
-#
-#accessLog:
-  # Sets the file path for the access log. If not specified, stdout will be used.
-  # Intermediate directories are created if necessary.
-  #
-  # Optional
-  # Default: os.Stdout
-  #
-#  filePath: /path/to/log/log.txt
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
 
-  # Format is either "json" or "common".
-  #
-  # Optional
-  # Default: "common"
-  #
-#  format: json
-
-# Enable API and dashboard
-#
-# Optional
-#
-#api:
-  # Enable the API in insecure mode
-  #
-  # Optional
-  # Default: false
-  #
-#  insecure: true
-
-  # Enabled Dashboard
-  #
-  # Optional
-  # Default: true
-  #
-#  dashboard: false
-
-# Enable ping
-#ping:
-  # Name of the related entry point
-  #
-  # Optional
-  # Default: "traefik"
-  #
-#  entryPoint: traefik
+experimental:
+  plugins:
+    crowdsec-bouncer-traefik-plugin:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.5.1"

@@ -3,6 +3,8 @@ transcode_cache/
 .env
 
 config/*
+!config/crowdsec/
+config/crowdsec/*
 !config/crowdsec/acquis.yaml
 
 cache/

@@ -10,9 +10,13 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
-      - ./docker-conf/traefik.yml:/etc/traefik/traefik.yml
+      - ./docker-conf/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./docker-conf/dynamic:/etc/traefik/dynamic:ro
+      - ./data/traefik/logs:/var/log/traefik
 #    environment:
 #      - MIJNHOST_API_KEY=${MIJNHOST_API_KEY}
+    environment:
+      - CROWDSEC_LAPI_KEY=${CROWDSEC_LAPI_KEY} 
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`dashboard.${HOST}`)"
@@ -24,3 +28,15 @@ services:
       - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
       - "traefik.http.routers.traefik-dashboard.middlewares=auth"
       - "wud.watch.digest=true"
+
+  logrotate:
+    image: vegardit/traefik-logrotate:latest
+    container_name: traefik-logrotate
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw  # To send USR1 signal to Traefik
+      - ./data/traefik/logs:/var/log/traefik:rw       # Same log directory
+    environment:
+      LOGROTATE_LOGS: "/var/log/traefik/*.log"
+      LOGROTATE_TRIGGER_SIZE: "100M"      # Rotate when file reaches 50MB
+      LOGROTATE_MAX_BACKUPS: "7"          # Keep 7 old log files
+      LOGROTATE_TRIGGER_INTERVAL: "daily" # Also rotate daily
