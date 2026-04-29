@@ -37,7 +37,7 @@ certificatesResolvers:
 
 providers:
   docker:
-    network: proxy
+    network: server_default
   file:
     directory: /etc/traefik/dynamic/
     watch: true

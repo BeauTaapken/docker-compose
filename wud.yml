@@ -16,7 +16,6 @@ services:
       - WUD_REGISTRY_LSCR_LINUXSERVER_USERNAME=${LSCR_USERNAME}
       - WUD_REGISTRY_LSCR_LINUXSERVER_TOKEN=${LSCR_TOKEN}
       - WUD_TRIGGER_DOCKER_CLEANUP_PRUNE=true
-      - WUD_TRIGGER_DOCKER_COMPOSE_JELLYFIN_FILE
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wud.rule=Host(`wud.${HOST}`)"
