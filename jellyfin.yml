@@ -9,6 +9,7 @@ services:
       - DOCKER_MODS=ghcr.io/intro-skipper/intro-skipper-docker-mod
     volumes:
       - ./config/jellyfin:/config
+      - ./config/jellyfin/index.html:/usr/share/jellyfin/web/index.html
       - ./cache:/cache
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server:/wd-black
