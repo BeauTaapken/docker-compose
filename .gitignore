@@ -6,6 +6,11 @@ config/*
 !config/crowdsec/
 config/crowdsec/*
 !config/crowdsec/acquis.yaml
+!config/crowdsec/parsers/
+config/crowdsec/parsers/*
+!config/crowdsec/parsers/s02-enrich/
+config/crowdsec/parsers/s02-enrich/*
+!config/crowdsec/parsers/s02-enrich/custom-whitelists.yaml
 
 cache/
 log/

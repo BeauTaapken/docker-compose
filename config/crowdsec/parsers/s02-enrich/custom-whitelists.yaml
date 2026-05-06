@@ -1,0 +1,7 @@
+name: local/whitelists
+description: "Whitelist local services"
+whitelist:
+  reason: "Legitimate local service traffic"
+  expression:
+    #- evt.Meta.http_path contains '/Sessions/Playing/Progress'
+    - evt.Meta.http_path contains '/signalr/messages/negotiate'
