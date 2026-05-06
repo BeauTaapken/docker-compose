@@ -1,6 +1,6 @@
 services:
   reclamation:
-    image: itzg/minecraft-server
+    image: itzg/minecraft-server:java17
     container_name: reclamation
     tty: true
     stdin_open: true
@@ -9,6 +9,7 @@ services:
       TYPE: "AUTO_CURSEFORGE"
       CF_API_KEY: "${CF_API_KEY}"
       CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/reclamation-reclaim-the-world"
+#      CF_FILE_ID: "7117982"
       CF_INCLUDE: "391382"
       CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/more-overlays-updated"
       MEMORY: "16G"
@@ -19,9 +20,9 @@ services:
       - ./reclamation:/data
       - /mnt/18tb-exo/general-minecraft-config/banned-ips.json:/data/banned-ips.json
       - /mnt/18tb-exo/general-minecraft-config/banned-players.json:/data/banned-players.json
-#      - /mnt/18tb-exo/general-minecraft-config/config:/data/config
+      - /mnt/18tb-exo/general-minecraft-config/config:/data/config
       - /mnt/18tb-exo/general-minecraft-config/eula.txt:/data/eula.txt
-#      - /mnt/18tb-exo/general-minecraft-config/kubejs:/data/kubejs
+      - /mnt/18tb-exo/general-minecraft-config/kubejs:/data/kubejs
       - /mnt/18tb-exo/general-minecraft-config/ops.json:/data/ops.json
       - /mnt/18tb-exo/general-minecraft-config/resourcepacks:/data/resourcepacks
       - /mnt/18tb-exo/general-minecraft-config/server.properties:/data/server.properties
