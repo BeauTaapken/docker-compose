@@ -5,3 +5,4 @@ whitelist:
   expression:
     #- evt.Meta.http_path contains '/Sessions/Playing/Progress'
     - evt.Meta.http_path contains '/signalr/messages/negotiate'
+    - evt.Meta.http_path startsWith '/socket.io/'
