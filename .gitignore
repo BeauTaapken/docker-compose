@@ -3,6 +3,7 @@ transcode_cache/
 .env
 
 config/*
+
 !config/crowdsec/
 config/crowdsec/*
 !config/crowdsec/acquis.yaml
@@ -11,6 +12,11 @@ config/crowdsec/parsers/*
 !config/crowdsec/parsers/s02-enrich/
 config/crowdsec/parsers/s02-enrich/*
 !config/crowdsec/parsers/s02-enrich/custom-whitelists.yaml
+
+!config/qbittorrent/
+!config/qbittorrent/**/
+!config/qbittorrent/qBittorrent/
+!config/qbittorrent/qBittorrent/*.json
 
 cache/
 log/

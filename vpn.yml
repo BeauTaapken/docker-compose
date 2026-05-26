@@ -5,6 +5,7 @@ services:
     restart: always
     volumes:
       - ./config/vpn:/vpn
+      - /dev/net:/dev/net:z
     cap_add:
       - net_admin
     devices:

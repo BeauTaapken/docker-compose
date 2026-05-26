@@ -2,6 +2,7 @@ services:
   homeassistant:
     image: lscr.io/linuxserver/homeassistant:latest
     container_name: homeassistant
+    restart: unless-stopped
     environment:
       - PUID=${PGID}
       - PGID=${PUID}
@@ -13,7 +14,6 @@ services:
       - ./config/homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus/ro
-    restart: unless-stopped
     privileged: true
     labels:
       - "traefik.enable=true"

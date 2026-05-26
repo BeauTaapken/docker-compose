@@ -1,6 +1,6 @@
 services:
   reclamation:
-    image: itzg/minecraft-server:java17
+    image: itzg/minecraft-server:stable-java17@sha256:76c8d92cc93854838543cbbadcb5522f1d325d97882d4e9753005d53c228176e
     container_name: reclamation
     tty: true
     stdin_open: true
@@ -10,6 +10,7 @@ services:
       CF_API_KEY: "${CF_API_KEY}"
       CF_PAGE_URL: "https://www.curseforge.com/minecraft/modpacks/reclamation-reclaim-the-world"
 #      CF_FILE_ID: "7117982"
+      VERSION: "1.20.1"
       CF_INCLUDE: "391382"
       CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/more-overlays-updated"
       MEMORY: "16G"
