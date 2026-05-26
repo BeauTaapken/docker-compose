@@ -1,0 +1,14 @@
+{
+    "radarr": {
+        "save_path": ""
+    },
+    "radarr-imported": {
+        "save_path": ""
+    },
+    "sonarr-imported": {
+        "save_path": ""
+    },
+    "tv-sonarr": {
+        "save_path": ""
+    }
+}
