@@ -6,8 +6,6 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - WEBUI_PORT=8080
-      - TORRENTING_PORT=6881
     volumes:
       - ./config/qbittorrent:/config
       - /mnt/18tb-exo/download:/downloads

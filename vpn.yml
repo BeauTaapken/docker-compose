@@ -10,8 +10,14 @@ services:
       - net_admin
     devices:
       - /dev/net/tun
+    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
     security_opt:
       - label:disable
+    stdin_open: true
+    environment:
+      - FIREWALL=""
     labels:
-      - "traefik.enable=false"
       - "wud.watch.digest=true"
