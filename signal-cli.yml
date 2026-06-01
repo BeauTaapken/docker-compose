@@ -5,8 +5,8 @@ services:
     ports:
       - 9080:8080
     environment:
-      - MODE=normal #supported modes: json-rpc, native, normal
-      #- AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
+      - MODE=native #supported modes: json-rpc, native, normal
+      - AUTO_RECEIVE_SCHEDULE=0 * * * * #enable this parameter on demand (see description below)
     restart: unless-stopped
     volumes:
       - "./config/signal-cli:/home/.local/share/signal-cli"
