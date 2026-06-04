@@ -13,7 +13,7 @@ services:
       VERSION: "1.20.1"
       CF_INCLUDE: "391382"
       CURSEFORGE_FILES: "https://www.curseforge.com/minecraft/mc-mods/more-overlays-updated"
-      MEMORY: "16G"
+      MEMORY: "20G"
       USE_AIKAR_FLAGS: "true"
       CF_DOWNLOADS_REPO: "/downloads"
     volumes:
