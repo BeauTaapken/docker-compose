@@ -6,6 +6,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     environment:
+      TZ: ${TZ}
       WATCHTOWER_SCHEDULE: "5 3 * * * "
       WATCHTOWER_CLEANUP: "true"
       WATCHTOWER_NOTIFICATION_URL: ${NOTIFICATION_URI}
