@@ -1,0 +1,21 @@
+services:
+  clockclock:
+    image: argonqq/clockclock:latest
+    container_name: clockclock
+    environment:
+      - PUID=${PGID}
+      - PGID=${PUID}
+      - TZ=${TZ}
+      - SESSION_SECRET=${CLOCK_CLOCK_SECRET}
+      - ADMIN_PASSWORD=${CLOCK_CLOCK_PW}
+    volumes:
+      - ./data/clockclock:/app/data
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.clockclock.rule=Host(`clockclock.${HOST}`)"
+      - "traefik.http.routers.clockclock.service=clockclock"
+      - "traefik.http.routers.clockclock.entrypoints=https"
+      - "traefik.http.routers.clockclock.tls=true"
+      - "traefik.http.routers.clockclock.tls.certresolver=letsencrypt"
+      - "traefik.http.services.clockclock.loadbalancer.server.port=3000"
