@@ -12,5 +12,3 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # Mounted as read-only
     restart: unless-stopped
-    labels:
-      - "wud.watch.digest=true"

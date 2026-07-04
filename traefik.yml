@@ -27,7 +27,6 @@ services:
       - "traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080"
       - "traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
       - "traefik.http.routers.traefik-dashboard.middlewares=auth"
-      - "wud.watch.digest=true"
 
   logrotate:
     image: vegardit/traefik-logrotate:latest

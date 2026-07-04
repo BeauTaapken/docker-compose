@@ -24,7 +24,6 @@ services:
       - "traefik.http.routers.immich.tls=true"
       - "traefik.http.routers.immich.tls.certresolver=letsencrypt"
       - "traefik.http.services.immich.loadbalancer.server.port=2283"
-      - "wud.watch.digest=true"
       - "homepage.group=Media"
       - "homepage.name=Immich"
       - "homepage.icon=immich.png"
@@ -48,8 +47,6 @@ services:
     env_file:
       - .env
     restart: always
-    labels:
-      - "wud.watch.digest=true"
 
   redis:
     container_name: immich_redis

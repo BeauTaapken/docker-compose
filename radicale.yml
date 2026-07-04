@@ -33,4 +33,3 @@ services:
       - "traefik.http.routers.radicale.tls=true"
       - "traefik.http.routers.radicale.tls.certresolver=letsencrypt"
       - "traefik.http.services.radicale.loadbalancer.server.port=5232"
-      - "wud.watch.digest=true"

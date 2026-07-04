@@ -23,4 +23,3 @@ services:
       - "traefik.http.routers.homeassistant.tls=true"
       - "traefik.http.routers.homeassistant.tls.certresolver=letsencrypt"
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
-      - "wud.watch.digest=true"

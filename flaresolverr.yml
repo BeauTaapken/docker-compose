@@ -7,5 +7,3 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     restart: unless-stopped
-    labels:
-      - "wud.watch.digest=true"

@@ -69,4 +69,3 @@ services:
       - "traefik.http.routers.materialious.tls=true"
       - "traefik.http.routers.materialious.tls.certresolver=letsencrypt"
       - "traefik.http.services.materialious.loadbalancer.server.port=3000"
-      - "wud.watch.digest=true"

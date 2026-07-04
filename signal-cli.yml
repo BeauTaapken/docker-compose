@@ -10,5 +10,3 @@ services:
     restart: unless-stopped
     volumes:
       - "./config/signal-cli:/home/.local/share/signal-cli"
-    labels:
-      - "wud.watch.digest=true"

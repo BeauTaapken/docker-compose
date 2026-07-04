@@ -26,7 +26,6 @@ services:
       - "traefik.http.routers.sonarr.tls=true"
       - "traefik.http.routers.sonarr.tls.certresolver=letsencrypt"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
-      - "wud.watch.digest=true"
       - "homepage.group=Sourcers"
       - "homepage.name=Sonarr"
       - "homepage.icon=sonarr.png"
