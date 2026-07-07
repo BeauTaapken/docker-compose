@@ -6,4 +6,5 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+      - LANG=en_GB
     restart: unless-stopped
