@@ -6,15 +6,17 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Amsterdam
-      - PUID=1000
-      - PGID=1000
-      - UMASK_SET=003
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK_SET=002
       - serverPort=8266
       - webUIPort=8265
       - internalNode=true
       - inContainer=true
-      - ffmpegVersion=6
+      - ffmpegVersion=7
       - nodeName=MyInternalNode
+      - maxLogSizeMB=10
+      - auth=true
     group_add:
       - "989"
     volumes:
