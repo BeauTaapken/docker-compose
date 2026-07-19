@@ -16,7 +16,13 @@ config/crowdsec/parsers/s02-enrich/*
 !config/qbittorrent/
 !config/qbittorrent/**/
 !config/qbittorrent/qBittorrent/
+!config/qbittorrent/qBittorrent/**/
 !config/qbittorrent/qBittorrent/*.json
+
+!config/homeassistant/
+!config/homeassistant/**/
+!config/homeassistant/qBittorrent/
+!config/homeassistant/qBittorrent/*.json
 
 cache/
 log/
