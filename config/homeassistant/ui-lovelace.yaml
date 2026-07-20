@@ -1,0 +1,155 @@
+# =============================================================================
+# Git-managed Lovelace dashboard — modern Sections view. MVP replacement for the
+# gethomepage dashboard. Templated by docker/homeassistant.yml (the DOMAIN
+# placeholder resolves at deploy time). Do NOT put Home-Assistant Jinja
+# (e.g. a states(...) template) in this file — Ansible would try to render it
+# and fail. Use static entity_ids only; the only Ansible var used below is DOMAIN.
+#
+# ENTITY IDs: the *arr / Jellyfin / Ombi / System Monitor entities below only
+# exist AFTER those integrations are added, and *arr / System Monitor ids depend
+# on the HA UI language at creation time (rename Dutch slugs to these English
+# targets, or enable the default-disabled ones). Tiles read "unavailable" until
+# then — harmless.
+#
+# Guaranteed-live (git-managed) sensors: sensor.prowlarr_indexers,
+# sensor.bazarr_wanted_subtitles, sensor.ombi_* (REST sensors / ombi YAML integration).
+# =============================================================================
+title: Home
+views:
+  - title: Dashboard
+    path: home
+    icon: mdi:home
+    type: sections
+    sections:
+      # -------------------------------------------------------------- MEDIA
+      - type: grid
+        cards:
+          - type: heading
+            heading: 🏠 Home Server
+            badges:
+              - type: button
+                text: DuckDuckGo
+                icon: mdi:magnify
+                tap_action:
+                  action: url
+                  url_path: "https://duckduckgo.com"
+          - type: heading
+            heading: Media
+            icon: mdi:multimedia
+          - type: button
+            name: Jellyfin
+            icon: mdi:play-network
+            tap_action:
+              action: url
+              url_path: "https://jellyfin."
+          # After onboarding Jellyfin, add a `type: media-control` card per
+          # media_player.<client> entity here for now-playing.
+          - type: heading
+            heading: Requests
+            heading_style: subtitle
+          - type: tile
+            entity: sensor.ombi_movie_requests
+            name: Movies
+          - type: tile
+            entity: sensor.ombi_tv_show_requests
+            name: TV shows
+
+      # ----------------------------------------------------------- SOURCERS
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sourcers
+            icon: mdi:download
+          - type: button
+            name: Sonarr
+            icon: mdi:television-classic
+            tap_action:
+              action: url
+              url_path: "https://sonarr.{{ DOMAIN }}"
+          - type: button
+            name: Radarr
+            icon: mdi:movie-open
+            tap_action:
+              action: url
+              url_path: "https://radarr.{{ DOMAIN }}"
+          - type: button
+            name: Lidarr
+            icon: mdi:music
+            tap_action:
+              action: url
+              url_path: "https://lidarr.{{ DOMAIN }}"
+          - type: button
+            name: Prowlarr
+            icon: mdi:magnify
+            tap_action:
+              action: url
+              url_path: "https://prowlarr.{{ DOMAIN }}"
+          - type: button
+            name: Bazarr
+            icon: mdi:subtitles
+            tap_action:
+              action: url
+              url_path: "https://bazarr.{{ DOMAIN }}"
+          - type: button
+            name: Tdarr
+            icon: mdi:video-vintage
+            tap_action:
+              action: url
+              url_path: "https://tdarr.{{ DOMAIN }}"
+          - type: heading
+            heading: Queues & backlog
+            heading_style: subtitle
+          - type: tile
+            entity: sensor.sonarr_queue
+            name: Sonarr queue
+          - type: tile
+            entity: sensor.sonarr_wanted
+            name: Sonarr wanted
+          - type: tile
+            entity: sensor.radarr_queue
+            name: Radarr queue
+          - type: tile
+            entity: sensor.lidarr_queue
+            name: Lidarr queue
+          - type: tile
+            entity: sensor.lidarr_wanted
+            name: Lidarr wanted
+          # Git-managed sensors (live immediately, no onboarding needed):
+          - type: tile
+            entity: sensor.prowlarr_indexers
+            name: Prowlarr indexers
+          - type: tile
+            entity: sensor.bazarr_wanted_subtitles
+            name: Bazarr wanted subs
+
+      # ------------------------------------------------------------- SYSTEM
+      - type: grid
+        cards:
+          - type: heading
+            heading: System
+            icon: mdi:server
+          # Gauges stay — best visual for a percentage (the "tile/gauge hybrid").
+          - type: gauge
+            name: CPU
+            entity: sensor.system_monitor_processor_use
+            unit: "%"
+            severity:
+              green: 0
+              yellow: 70
+              red: 90
+          - type: gauge
+            name: Memory
+            entity: sensor.system_monitor_memory_usage
+            unit: "%"
+            severity:
+              green: 0
+              yellow: 70
+              red: 90
+          - type: gauge
+            name: Disk /
+            entity: sensor.system_monitor_disk_usage
+            unit: "%"
+            severity:
+              green: 0
+              yellow: 80
+              red: 92
