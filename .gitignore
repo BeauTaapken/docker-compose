@@ -16,13 +16,16 @@ config/crowdsec/parsers/s02-enrich/*
 !config/qbittorrent/
 !config/qbittorrent/**/
 !config/qbittorrent/qBittorrent/
-!config/qbittorrent/qBittorrent/**/
+config/qbittorrent/qBittorrent/*
 !config/qbittorrent/qBittorrent/*.json
 
 !config/homeassistant/
 !config/homeassistant/**/
-!config/homeassistant/qBittorrent/
-!config/homeassistant/qBittorrent/*.json
+config/homeassistant/*
+!config/homeassistant/backups/
+!config/homeassistant/backups/**
+!config/homeassistant/configuration.yaml
+!config/homeassistant/ui-lovelace.yaml
 
 cache/
 log/

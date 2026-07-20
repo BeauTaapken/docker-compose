@@ -10,7 +10,7 @@ services:
     volumes:
       - ./config/jellyfin:/config
       - ./config/jellyfin/index.html:/usr/share/jellyfin/web/index.html
-      - ./cache:/cache
+      - ./cache/jellyfin:/cache
       - /mnt/1tb-hdd/server:/1tb-hdd
       - /mnt/wd-black/server:/wd-black
       - /mnt/18tb-exo:/18tb-exo
