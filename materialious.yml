@@ -1,6 +1,6 @@
 services:
   materialious:
-    image: wardpearce/materialious-full:1.17.1
+    image: wardpearce/materialious-full:latest
     container_name: materialious
     restart: unless-stopped
     environment:
