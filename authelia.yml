@@ -7,8 +7,15 @@ services:
       - PGID=${PGID}
       - PUID=${PUID}
       - TZ=${TZ}
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_IMPLEMENTATION=lldap
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDRESS=ldap://lldap:3890
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_BASE_DN=dc=https://lldap.${HOST}.dc=
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USER=UID=authelia,OU=people,DC=https://lldap.${HOST},DC=
+      - AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD=${LLDAP_LDAP_USER_PASS}
+      - AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY=two_factor
     volumes:
-      - ./config/authelia:/config
+#      - ./config/authelia:/config
+      - ./data/authelia:/data/authelia
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.authelia.rule=Host(`authelia.${HOST}`)"
@@ -17,3 +24,28 @@ services:
       - "traefik.http.routers.authelia.entrypoints=https"
       - "traefik.http.routers.authelia.tls=true"
       - "traefik.http.routers.authelia.tls.certresolver=letsencrypt"
+    depends_on:
+      - lldap
+
+  lldap:
+    container_name: lldap
+    image: lldap/lldap:stable
+    restart: unless-stopped
+    environment:
+      - GID=${PGID}
+      - UID=${PUID}
+      - TZ=${TZ}
+      - LLDAP_JWT_SECRET=${LLDAP_JWT_SECRET}
+      - LLDAP_KEY_SEED=${LLDAP_KEY_SEED}
+      - LLDAP_LDAP_BASE_DN=dc=https://lldap.${HOST},dc=
+      - LLDAP_LDAP_USER_PASS=${LLDAP_LDAP_USER_PASS}
+    volumes:
+      - ./data/lldap:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.lldap.rule=Host(`lldap.${HOST}`)"
+      - "traefik.http.routers.lldap.service=lldap"
+      - "traefik.http.services.lldap.loadbalancer.server.port=17170"
+      - "traefik.http.routers.lldap.entrypoints=https"
+      - "traefik.http.routers.lldap.tls=true"
+      - "traefik.http.routers.lldap.tls.certresolver=letsencrypt"
