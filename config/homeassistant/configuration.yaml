@@ -24,3 +24,9 @@ lovelace:
       title: Overview
       icon: mdi:view-dashboard
       show_in_sidebar: true
+
+group:
+  family:
+    name: "Family"
+    entities:
+      - person.beau
