@@ -9,12 +9,6 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
-# Reverse proxy
-http:
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - 172.22.0.0/24
-
 lovelace:
   resource_mode: yaml
   dashboards:
