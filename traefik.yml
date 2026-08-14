@@ -31,6 +31,7 @@ services:
   logrotate:
     image: vegardit/traefik-logrotate:latest
     container_name: traefik-logrotate
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw  # To send USR1 signal to Traefik
       - ./data/traefik/logs:/var/log/traefik:rw       # Same log directory
