@@ -1,0 +1,47 @@
+services:
+  safeshare:
+    image: fjmerc/safeshare:latest
+    container_name: safeshare
+    restart: unless-stopped
+    environment:
+      # --- Authentication ---
+      - REQUIRE_AUTH_FOR_UPLOAD=true
+      - ADMIN_USERNAME=${SAFESHARE_ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${SAFESHARE_ADMIN_PASSWORD}
+      - SESSION_EXPIRY_HOURS=8
+      # --- Encryption ---
+      - ENCRYPTION_KEY=${SAFESHARE_ENCRYPTION_KEY}
+      - HTTPS_ENABLED=true
+      # --- MFA ---
+      - FEATURE_MFA=true
+      - MFA_ENABLED=true
+      # --- Integrations ---
+      - FEATURE_WEBHOOKS=true
+      - FEATURE_API_TOKENS=true
+      # --- Malware scanning ---
+      #- FEATURE_MALWARE_SCAN=true
+      #- CLAMAV_HOST=clamav
+      #- CLAMAV_PORT=3310
+      #- CLAMAV_TIMEOUT=30
+      #- CLAMAV_MAX_FILE_SIZE=104857600
+      # --- Access control ---
+      - BLOCKED_EXTENSIONS=.exe,.bat,.cmd,.sh,.ps1,.dll,.so,.msi,.scr,.vbs,.jar,.com,.app,.deb,.rpm
+      - RATE_LIMIT_UPLOAD=10
+      - RATE_LIMIT_DOWNLOAD=50
+      - QUOTA_LIMIT_GB=100
+      - MAX_FILE_SIZE=5368709120
+      - DEFAULT_EXPIRATION_HOURS=24
+      - TZ=${TZ}
+    volumes:
+      - ./data/safeshare/data:/app/data
+      - ./data/safeshare/uploads:/app/uploads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.safeshare.rule=Host(`safeshare.${HOST}`)"
+      - "traefik.http.routers.safeshare.service=safeshare"
+      - "traefik.http.routers.safeshare.entrypoints=https"
+      - "traefik.http.routers.safeshare.tls=true"
+      - "traefik.http.routers.safeshare.tls.certresolver=letsencrypt"
+      - "traefik.http.services.safeshare.loadbalancer.server.port=8080"
+      - "traefik.http.routers.safeshare.middlewares=safeshare-headers"
+      - "traefik.http.middlewares.safeshare-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
