@@ -1,0 +1,22 @@
+services:
+  obsidian-livesync:
+    image: couchdb:latest
+    container_name: couchdb
+    environment:
+      - PUID=${PGID}
+      - PGID=${PUID}
+      - TZ=${TZ}
+      - COUCHDB_USER=${COUCHDB_USER}
+      - COUCHDB_PASSWORD=${COUCHDB_PASSWORD}
+    volumes:
+      - ./data/obsidian-livesync:/opt/couchdb/data
+      - ./config/obsidian-livesync:/opt/couchdb/etc/local.d
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.livesync.rule=Host(`livesync.${HOST}`)"
+      - "traefik.http.routers.livesync.service=livesync"
+      - "traefik.http.routers.livesync.entrypoints=https"
+      - "traefik.http.routers.livesync.tls=true"
+      - "traefik.http.routers.livesync.tls.certresolver=letsencrypt"
+      - "traefik.http.services.livesync.loadbalancer.server.port=5984"
