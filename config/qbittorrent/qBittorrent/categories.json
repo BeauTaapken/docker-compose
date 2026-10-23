@@ -1,14 +1,47 @@
 {
+    "lidarr": {
+        "download_path": null,
+        "inactive_seeding_time_limit": -2,
+        "ratio_limit": -2,
+        "save_path": "",
+        "seeding_time_limit": -2,
+        "share_limit_action": "Default",
+        "share_limits_mode": "Default"
+    },
     "radarr": {
-        "save_path": ""
+        "download_path": null,
+        "inactive_seeding_time_limit": -2,
+        "ratio_limit": -2,
+        "save_path": "",
+        "seeding_time_limit": -2,
+        "share_limit_action": "Default",
+        "share_limits_mode": "Default"
     },
     "radarr-imported": {
-        "save_path": ""
+        "download_path": null,
+        "inactive_seeding_time_limit": -2,
+        "ratio_limit": -2,
+        "save_path": "",
+        "seeding_time_limit": -2,
+        "share_limit_action": "Default",
+        "share_limits_mode": "Default"
     },
     "sonarr-imported": {
-        "save_path": ""
+        "download_path": null,
+        "inactive_seeding_time_limit": -2,
+        "ratio_limit": -2,
+        "save_path": "",
+        "seeding_time_limit": -2,
+        "share_limit_action": "Default",
+        "share_limits_mode": "Default"
     },
     "tv-sonarr": {
-        "save_path": ""
+        "download_path": null,
+        "inactive_seeding_time_limit": -2,
+        "ratio_limit": -2,
+        "save_path": "",
+        "seeding_time_limit": -2,
+        "share_limit_action": "Default",
+        "share_limits_mode": "Default"
     }
 }
