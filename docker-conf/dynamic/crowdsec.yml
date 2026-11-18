@@ -8,6 +8,6 @@ http:
           CrowdsecMode: "stream"
           CrowdsecLapiHost: "crowdsec:8080"
           CrowdsecLapiKey: '{{ env "CROWDSEC_LAPI_KEY" }}'
-#          CrowdsecAppsecEnabled: false
+#          CrowdsecAppsecEnabled: true
           ClientTrustedIPs:
             - "127.0.0.1/32"
